@@ -102,6 +102,7 @@ def convert_atlas(
     if pixelate:
         if not cell:
             raise ValueError("--pixelate needs --cell N")
+        pet_spec.check_cell(cell, cell)
         f = min(cell / sw, cell / sh)
         tw, th = max(1, round(sw * f)), max(1, round(sh * f))
         out_w = out_h = cell
@@ -189,12 +190,17 @@ def main(argv=None) -> int:
     p.add_argument("--out-dir", type=Path, default=Path("."), help="parent for the <id>/ package folder")
     p.add_argument("--id", help="pet id (default: from the Codex pet)")
     p.add_argument("--pixelate", action="store_true", help="convert the art to compliant pixel art")
-    p.add_argument("--cell", type=int, help="target cell size with --pixelate (16-256)")
+    p.add_argument("--cell", type=int, help="target cell size with --pixelate (16-128)")
     p.add_argument("--max-colors", type=int, default=pet_spec.DEFAULT_MAX_COLORS)
     p.add_argument("--author")
     p.add_argument("--license", dest="license_id")
     p.add_argument("--install", action="store_true", help="copy to ~/.claude/pets/<id>/ if valid")
     a = p.parse_args(argv)
+    if a.cell is not None:
+        try:
+            pet_spec.check_cell(a.cell, a.cell)
+        except ValueError as e:
+            p.error(f"--cell: {e}")
     try:
         pkg = import_pet(a.src, a.out_dir, a.id, a.pixelate, a.cell, a.max_colors, a.author, a.license_id)
     except (OSError, ValueError, KeyError) as e:

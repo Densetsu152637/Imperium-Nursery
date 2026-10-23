@@ -2,7 +2,7 @@
 """Validate a Claude pet package against docs/pet-format-v3.md.
 
 Checks pet.json (schema, custom animations), the atlas (PNG, RGBA, size),
-the pixel-art rules per cell (<=256 px, binary alpha, <= maxColors colours,
+the pixel-art rules per cell (<=128 px, binary alpha, <= maxColors colours,
 no pre-upscaled art), that unused cells are empty, that strips/<animation>.png
 exist, match the atlas and stay within 96 KiB, that idle is drawn, and that
 every fallback chain reaches a drawn animation.

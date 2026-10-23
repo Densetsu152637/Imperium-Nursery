@@ -14,7 +14,7 @@ from pathlib import Path
 COLUMNS = 8
 STANDARD_ROWS = 22
 CELL_MIN = 16
-CELL_MAX = 256
+CELL_MAX = 128
 DEFAULT_MAX_COLORS = 64
 HARD_MAX_COLORS = 256
 MAX_STRIP_BYTES = 96 * 1024
@@ -87,6 +87,12 @@ def parse_hex(value: str) -> tuple[int, int, int]:
 
 def row_span(frames: int) -> int:
     return max(1, math.ceil(frames / COLUMNS))
+
+
+def check_cell(w: int, h: int) -> None:
+    """Raise ValueError unless both cell dimensions are within CELL_MIN..CELL_MAX."""
+    if not (CELL_MIN <= w <= CELL_MAX and CELL_MIN <= h <= CELL_MAX):
+        raise ValueError(f"cell {w}x{h} is out of range: each side must be {CELL_MIN}-{CELL_MAX} px")
 
 
 def frame_cell(row: int, index: int) -> tuple[int, int]:

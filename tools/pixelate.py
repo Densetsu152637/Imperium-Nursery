@@ -266,8 +266,11 @@ def pixelate_image(
 def parse_cell(text: str) -> tuple[int, int]:
     if "x" in text.lower():
         w, h = text.lower().split("x", 1)
-        return int(w), int(h)
-    return int(text), int(text)
+        cw, ch = int(w), int(h)
+    else:
+        cw = ch = int(text)
+    pet_spec.check_cell(cw, ch)
+    return cw, ch
 
 
 def parse_key(text: str):
@@ -293,7 +296,10 @@ def main(argv=None) -> int:
     p.add_argument("--threshold", type=int, default=128, help="alpha >= this becomes opaque")
     p.add_argument("--no-despill", action="store_true", help="keep fringe pixels near the key colour")
     a = p.parse_args(argv)
-    cw, ch = parse_cell(a.cell)
+    try:
+        cw, ch = parse_cell(a.cell)
+    except ValueError as e:
+        p.error(f"--cell: {e}")
     out = pixelate_image(
         Image.open(a.input), cw, ch, a.max_colors, parse_key(a.key), a.tolerance,
         a.scale if a.scale == "auto" else int(a.scale), a.pad, a.anchor, a.threshold, not a.no_despill,

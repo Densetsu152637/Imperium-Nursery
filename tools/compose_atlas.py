@@ -74,7 +74,11 @@ def main(argv=None) -> int:
     a = p.parse_args(argv)
     cell = None
     if a.cell:
-        cell = tuple(int(v) for v in (a.cell.lower().split("x") * 2)[:2])
+        try:
+            cell = tuple(int(v) for v in (a.cell.lower().split("x") * 2)[:2])
+            pet_spec.check_cell(*cell)
+        except ValueError as e:
+            p.error(f"--cell: {e}")
     pet = pet_spec.load_pet_json(a.pet_json) if a.pet_json else None
     try:
         atlas, cell, drawn = compose(a.frames_dir, cell, pet)

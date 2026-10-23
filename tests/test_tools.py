@@ -156,6 +156,12 @@ class ValidatorTests(TempDir):
             package_pet.cut_strips(pet_dir)
         return pet_dir
 
+    def test_cell_129_rejected(self):
+        def m(p):
+            p["cell"] = {"width": 129, "height": 129}
+        rep = validate_pet.validate(self.make(mutate_pet=m, strips=False))
+        self.assertIn("cell-invalid", self.codes(rep))
+
     def codes(self, rep, kind="errors"):
         return {e["code"] for e in getattr(rep, kind)}
 
@@ -426,6 +432,34 @@ class CodexImportTests(TempDir):
         m = {"id": "x", "sprite_version": 7, "spritesheetPath": "spritesheet.png"}
         with self.assertRaises(ValueError):
             import_codex_pet.import_pet(self.make_codex(manifest=m), self.tmp / "out")
+
+
+class CellLimitTests(TempDir):
+    def test_spec_limit(self):
+        self.assertEqual(pet_spec.CELL_MAX, 128)
+        pet_spec.check_cell(128, 128)
+        with self.assertRaises(ValueError):
+            pet_spec.check_cell(129, 128)
+
+    def test_parse_cell(self):
+        self.assertEqual(pixelate.parse_cell("128"), (128, 128))
+        with self.assertRaises(ValueError):
+            pixelate.parse_cell("129")
+        with self.assertRaises(ValueError):
+            pixelate.parse_cell("64x200")
+
+    def test_clis_reject_129(self):
+        img = self.tmp / "a.png"
+        Image.new("RGBA", (8, 8)).save(img)
+        for mod, argv in (
+            (pixelate, [str(img), "-o", str(self.tmp / "o.png"), "--cell", "129"]),
+            (extract_strip_frames, [str(img), "--animation", "idle", "--cell", "129", "--frames", "1"]),
+            (compose_atlas, [str(self.tmp), "--cell", "129"]),
+            (import_codex_pet, [str(self.tmp), "--pixelate", "--cell", "129"]),
+        ):
+            with self.subTest(mod=mod.__name__), self.assertRaises(SystemExit) as cm:
+                mod.main(argv)
+            self.assertEqual(cm.exception.code, 2)
 
 
 class SpecTests(unittest.TestCase):

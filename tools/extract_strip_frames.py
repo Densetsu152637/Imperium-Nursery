@@ -135,7 +135,10 @@ def main(argv=None) -> int:
     n = a.frames or (anims.get(a.animation) or {}).get("frames")
     if not n:
         p.error(f"unknown animation {a.animation!r}; pass --frames or --pet-json")
-    cw, ch = px.parse_cell(a.cell)
+    try:
+        cw, ch = px.parse_cell(a.cell)
+    except ValueError as e:
+        p.error(f"--cell: {e}")
     frames, info = extract_frames(
         Image.open(a.strip), n, cw, ch, a.max_colors, px.parse_key(a.key), a.tolerance,
         a.scale if a.scale == "auto" else int(a.scale), a.slice, a.pad,
