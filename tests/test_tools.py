@@ -326,19 +326,25 @@ class SampleTests(unittest.TestCase):
 
 
 class CodexImportTests(TempDir):
-    def make_codex(self):
+    def make_codex(self, rows=11, manifest=None, sheet_name="spritesheet.png", extra_files=()):
         src = self.tmp / "codex-pet"
+        shutil.rmtree(src, True)
         src.mkdir()
-        sheet = Image.new("RGBA", (8 * 48, 11 * 52), (0, 0, 0, 0))
+        sheet = Image.new("RGBA", (8 * 48, rows * 52), (0, 0, 0, 0))
         counts = {"idle": 6, "running-right": 8, "running-left": 8, "waving": 4, "jumping": 5, "failed": 8, "waiting": 6, "running": 6, "review": 6}
         for a in pet_spec.ANIMATIONS.values():
             if a["codex"]:
                 for i in range(counts[a["codex"]]):
                     sheet.paste(Image.new("RGBA", (20, 30), (a["row"] * 20, i * 20, 120, 255)), (i * 48 + 10, a["row"] * 52 + 10))
-        for i in range(16):
-            sheet.paste(Image.new("RGBA", (20, 30), (200, i * 10, 10, 255)), ((i % 8) * 48 + 10, (9 + i // 8) * 52 + 10))
-        sheet.save(src / "spritesheet.png")
-        (src / "pet.json").write_text(json.dumps({"id": "Codex Pet", "displayName": "Codex Pet", "description": "d", "spriteVersionNumber": 2, "spritesheetPath": "spritesheet.png"}))
+        if rows == 11:
+            for i in range(16):
+                sheet.paste(Image.new("RGBA", (20, 30), (200, i * 10, 10, 255)), ((i % 8) * 48 + 10, (9 + i // 8) * 52 + 10))
+        sheet.save(src / sheet_name)
+        for extra in extra_files:
+            sheet.save(src / extra)
+        if manifest is None:
+            manifest = {"id": "Codex Pet", "displayName": "Codex Pet", "description": "d", "spriteVersionNumber": 2, "spritesheetPath": "spritesheet.png"}
+        (src / "pet.json").write_text(json.dumps(manifest))
         return src
 
     def test_row_mapping_without_pixelate(self):
@@ -370,11 +376,56 @@ class CodexImportTests(TempDir):
         rep = validate_pet.validate(pkg)
         self.assertEqual([e for e in rep.errors if e["code"] not in ("pre-upscaled",)], [])
 
-    def test_rejects_v1(self):
-        src = self.make_codex()
-        (src / "pet.json").write_text(json.dumps({"id": "x"}))
+    def test_alternate_manifest_keys(self):
+        m = {"id": "pet_6abd0cfcb4a4819195fe7b7747962618", "name": "Kitsune", "description": "d", "sprite_version": 2, "spritesheet": "sheet-x.png"}
+        pkg = import_codex_pet.import_pet(self.make_codex(manifest=m, sheet_name="sheet-x.png"), self.tmp / "out")
+        pet = json.loads((pkg / "pet.json").read_text())
+        self.assertEqual((pet["id"], pet["displayName"]), ("kitsune", "Kitsune"))
+        self.assertEqual(validate_pet.validate(pkg).errors, [])
+
+    def test_id_override_and_sanitising(self):
+        m = {"id": "My Pet_v2!", "spriteVersionNumber": 2, "spritesheetPath": "spritesheet.png"}
+        pkg = import_codex_pet.import_pet(self.make_codex(manifest=m), self.tmp / "out")
+        self.assertEqual(pkg.name, "my-pet-v2")
+        shutil.rmtree(self.tmp / "out")
+        pkg = import_codex_pet.import_pet(self.make_codex(manifest=m), self.tmp / "out", pet_id="Chosen One")
+        self.assertEqual(pkg.name, "chosen-one")
+
+    def test_version_inferred_from_atlas_size(self):
+        m = {"id": "plain", "spritesheet_file": "spritesheet.png"}
+        self.assertEqual(import_codex_pet.infer_version((1536, 2288)), 2)
+        self.assertEqual(import_codex_pet.infer_version((1536, 1872)), 1)
+        pkg = import_codex_pet.import_pet(self.make_codex(manifest=m), self.tmp / "out")
+        self.assertEqual(json.loads((pkg / "pet.json").read_text())["importedFrom"], "codex-v2")
+
+    def test_v1_nine_row_sheet(self):
+        m = {"id": "old", "name": "Old", "sprite_version": 1}
+        pkg = import_codex_pet.import_pet(self.make_codex(rows=9, manifest=m), self.tmp / "out")
+        atlas = Image.open(pkg / "spritesheet.png")
+        self.assertEqual(atlas.size, (8 * 48, 22 * 52))
+        self.assertEqual(atlas.getpixel((12, 12))[3], 255)  # idle drawn
+        self.assertFalse((pkg / "strips" / "look.png").exists())
+        rep = validate_pet.validate(pkg)
+        self.assertEqual(rep.errors, [])
+        shutil.rmtree(self.tmp / "out")
+        m.pop("sprite_version")  # inferred as v1 from the 8 x 9 shape
+        pkg = import_codex_pet.import_pet(self.make_codex(rows=9, manifest=m), self.tmp / "out")
+        self.assertEqual(json.loads((pkg / "pet.json").read_text())["importedFrom"], "codex-v1")
+
+    def test_sheet_fallback_single_and_ambiguous(self):
+        m = {"id": "x1", "name": "Fallback", "spriteVersionNumber": 2, "spritesheetPath": "missing.png"}
+        pkg = import_codex_pet.import_pet(self.make_codex(manifest=m, sheet_name="spritesheet-extended.png"), self.tmp / "out")
+        self.assertTrue((pkg / "spritesheet.png").is_file())
+        shutil.rmtree(self.tmp / "codex-pet")
+        src = self.make_codex(manifest=m, sheet_name="spritesheet-a.png", extra_files=("spritesheet-b.webp",))
+        with self.assertRaises(ValueError) as cm:
+            import_codex_pet.import_pet(src, self.tmp / "out2")
+        self.assertIn("several", str(cm.exception))
+
+    def test_unsupported_version(self):
+        m = {"id": "x", "sprite_version": 7, "spritesheetPath": "spritesheet.png"}
         with self.assertRaises(ValueError):
-            import_codex_pet.import_pet(src, self.tmp / "out")
+            import_codex_pet.import_pet(self.make_codex(manifest=m), self.tmp / "out")
 
 
 class SpecTests(unittest.TestCase):
