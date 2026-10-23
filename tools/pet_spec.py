@@ -124,7 +124,7 @@ def resolve_animations(pet: dict | None) -> dict[str, dict]:
                 "name": name,
                 "frames": None,
                 "durations": None,
-                "loop": True,
+                "loop": False,
                 "priority": DEFAULT_CUSTOM_PRIORITY,
                 "minMs": DEFAULT_MIN_MS,
                 "fallback": None,

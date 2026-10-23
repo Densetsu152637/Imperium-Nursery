@@ -39,6 +39,12 @@ import { SVG_LIMIT, renderFragment } from './render'
 // verdict of tool.check and cleared when the call returns; a prompt answered by the auto-mode
 // classifier is not told apart from a person's. "Permission denied" is recognised by the
 // wording of the error the model receives (events.ts), which is not a stable API.
+//
+// OPEN ISSUES
+// - A strip that exists but has the wrong size is only found when it is drawn (stripOf), so the
+//   arbiter still treats that animation as drawn (its priority and timing apply) while the
+//   picture comes from its fallback.
+// - Only the desktop pane draws the sprite; the terminal shows a text line.
 
 const PANE = 'pet'
 const COMMAND = 'pet'
