@@ -20,7 +20,7 @@ Version 3 extends the Codex pet format (`spriteVersionNumber: 2`, from OpenAI's 
 
 ## Atlas
 
-- Grid: 8 columns x 22 rows. Cell size `cell.width` x `cell.height`, each an integer from 16 to 256 inclusive.
+- Grid: 8 columns x 22 rows. Cell size `cell.width` x `cell.height`, each an integer from 16 to 128 inclusive.
 - Atlas size: `8 * cell.width` x `22 * cell.height`. PNG, RGBA, transparent background.
 - A standard row's used cells are its leading `frames` cells; cells after them are fully transparent.
 - Rows 9 and 10 together hold the 16 look directions, all cells used.
@@ -29,7 +29,7 @@ Version 3 extends the Codex pet format (`spriteVersionNumber: 2`, from OpenAI's 
 
 Pets are pixel art. `tools/validate_pet.py` enforces these for v3 packages; imported Codex v2 pets that break them load with a warning and `"pixelArt": false` in `pet.json`.
 
-1. Every cell is at most 256 x 256 pixels.
+1. Every cell is at most 128 x 128 pixels.
 2. Alpha is binary: every pixel is fully opaque (255) or fully transparent (0).
 3. At most `pixelArt.maxColors` opaque colours per cell (default 64, hard limit 256).
 4. Art is stored at its native pixel size, not pre-upscaled. The validator rejects a cell whose art is uniformly made of n x n blocks (n >= 2); downscale it, and let the renderer scale up with nearest-neighbour.
