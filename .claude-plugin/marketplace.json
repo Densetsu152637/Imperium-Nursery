@@ -1,0 +1,13 @@
+{
+  "name": "pixel-pets",
+  "owner": {
+    "name": "Densetsu152637"
+  },
+  "description": "Pixel Pets: a pixel-art animated pet for Claude Code, with skills and tools to hatch your own or import a Codex pet.",
+  "plugins": [
+    {
+      "name": "pixel-pets",
+      "source": "./"
+    }
+  ]
+}
