@@ -1,6 +1,6 @@
 ---
 name: import-codex-pet
-description: Convert an OpenAI Codex pet (v1 or v2 spritesheet and pet.json) into a Claude Pets v3 package, then validate, preview and install it. Use when the user has a Codex pet folder or pet.json and wants it in Claude Code, or asks to import, port or convert a Codex or hatch-pet pet.
+description: Convert an OpenAI Codex pet (v1 or v2 spritesheet and pet.json) into a Pixel Pets v3 package, then validate, preview and install it. Use when the user has a Codex pet folder or pet.json and wants it in Claude Code, or asks to import, port or convert a Codex or hatch-pet pet.
 ---
 
 # Import a Codex pet

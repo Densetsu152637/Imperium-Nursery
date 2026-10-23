@@ -1,4 +1,4 @@
-"""Unit tests for the Claude Pets tooling (stdlib unittest + Pillow)."""
+"""Unit tests for the Pixel Pets tooling (stdlib unittest + Pillow)."""
 
 import json
 import shutil

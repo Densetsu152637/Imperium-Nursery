@@ -11,7 +11,7 @@ import type { Catalog, PetDef } from './pet'
 import { pngSize } from './png'
 import { SVG_LIMIT, renderFragment } from './render'
 
-// clawd-pets: a pixel pet in its own pane. It shares nothing with other mods: its state keys,
+// pixel-pets: a pixel pet in its own pane. It shares nothing with other mods: its state keys,
 // its pane (`pet`) and its command (`/pet`) are its own, and it draws nowhere else.
 //
 // EVENT MAP (Claude Code event -> arbiter input -> animation)
@@ -46,8 +46,8 @@ const COMMAND = 'pet'
 const RECHECK_MS = 3000
 const DEFAULT_PET = 'pixel-clawd'
 
-const arbiterAtom = atom({ plugin: 'clawd-pets', key: 'arbiter' } as const, null)
-const selectionAtom = atom({ plugin: 'clawd-pets', key: 'selection' } as const, '')
+const arbiterAtom = atom({ plugin: 'pixel-pets', key: 'arbiter' } as const, null)
+const selectionAtom = atom({ plugin: 'pixel-pets', key: 'selection' } as const, '')
 
 // --- options and module caches (a reload starts them over) ----------------------------------
 
@@ -84,7 +84,7 @@ const blockedIds = new Set<string>()
 const warnOnce = ($: EngineInterface, key: string, text: string): void => {
   if (warned.has(key)) return
   warned.add(key)
-  void $.ui.log(`clawd-pets: ${text}`)
+  void $.ui.log(`pixel-pets: ${text}`)
 }
 
 // --- the pets folder --------------------------------------------------------------------------

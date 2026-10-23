@@ -1,11 +1,11 @@
 ---
 name: hatch-pet
-description: Create a Claude Pet, a v3 pixel-art animated pet for the claude-pets mod, from a concept, reference images or brand cues. Use when the user wants to make, design, draw or hatch a new pet, mascot or sprite for Claude Code, or to add or redo animation rows of an existing pet. Works with any image generation tool, user-supplied art, or hand-drawn pixel art.
+description: Create a Pixel Pet, a v3 pixel-art animated pet for the pixel-pets mod, from a concept, reference images or brand cues. Use when the user wants to make, design, draw or hatch a new pet, mascot or sprite for Claude Code, or to add or redo animation rows of an existing pet. Works with any image generation tool, user-supplied art, or hand-drawn pixel art.
 ---
 
 # Hatch Pet
 
-Build a Claude Pets v3 package: `pet.json`, an 8 x 22 `spritesheet.png` atlas and per-animation `strips/`. The contract is [pet-format-v3.md](../../docs/pet-format-v3.md); the `pet-format` skill summarises it. Do not restate it from memory; read the animation table when you need frame counts.
+Build a Pixel Pets v3 package: `pet.json`, an 8 x 22 `spritesheet.png` atlas and per-animation `strips/`. The contract is [pet-format-v3.md](../../docs/pet-format-v3.md); the `pet-format` skill summarises it. Do not restate it from memory; read the animation table when you need frame counts.
 
 Tool paths below use `${CLAUDE_PLUGIN_ROOT}` (the installed plugin directory; Claude Code substitutes it in plugin skills). Run them with `python`; they need Pillow.
 
@@ -61,7 +61,7 @@ The pet lives in a working folder (call it `WORK`, for example `./pets-work/<id>
     python "${CLAUDE_PLUGIN_ROOT}/tools/package_pet.py" WORK --install
     ```
     This copies the package to `~/.claude/pets/<id>/`. Add `--install-dir DIR` to install elsewhere.
-13. **Select it** with `/pet use <id>` (requires the `claude-pets` mod from this plugin).
+13. **Select it** with `/pet use <id>` (requires the `pixel-pets` mod from this plugin).
 
 ## Rules
 

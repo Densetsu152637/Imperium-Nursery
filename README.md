@@ -1,6 +1,6 @@
-# Claude Pets
+# Pixel Pets
 
-Claude Pets is a pixel-art, animated pet for Claude Code. It sits in its own pane beside your chat and reacts to what the session is doing: it works while a turn runs, waits when Claude needs you, celebrates a commit, flinches at a failure, falls asleep when you leave. It also ships the tools and skills to make your own pet or bring one over from OpenAI Codex.
+Pixel Pets is a pixel-art, animated pet for Claude Code. It sits in its own pane beside your chat and reacts to what the session is doing: it works while a turn runs, waits when Claude needs you, celebrates a commit, flinches at a failure, falls asleep when you leave. It also ships the tools and skills to make your own pet or bring one over from OpenAI Codex.
 
 The pet format extends the Codex `hatch-pet` format (v2: 9 states and 16 look directions) to a v3 format with 22 animations and behaviour priorities. See [docs/pet-format-v3.md](docs/pet-format-v3.md).
 
@@ -16,14 +16,14 @@ The pet format extends the Codex `hatch-pet` format (v2: 9 states and 16 look di
 
 ## Install
 
-This is how installation will work once the plugin is published to `Densetsu152637/Claude-Pets`. It is not available from that marketplace yet.
+This is how installation will work once the plugin is published to `Densetsu152637/Pixel-Pets`. It is not available from that marketplace yet.
 
 ```text
-/plugin marketplace add Densetsu152637/Claude-Pets
-/plugin install claude-pets@claude-pets
+/plugin marketplace add Densetsu152637/Pixel-Pets
+/plugin install pixel-pets@pixel-pets
 ```
 
-The plugin provides the `claude-pets` mod and the three skills below. The tools need Python 3 with [Pillow](https://pypi.org/project/pillow/).
+The plugin provides the `pixel-pets` mod and the three skills below. The tools need Python 3 with [Pillow](https://pypi.org/project/pillow/).
 
 ## Using the pet
 

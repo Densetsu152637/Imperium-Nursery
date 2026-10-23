@@ -1,5 +1,5 @@
-Claude Pets
-Copyright 2026 Claude Pets contributors. Licensed under the Apache License, Version 2.0 (see LICENSE).
+Pixel Pets
+Copyright 2026 Pixel Pets contributors. Licensed under the Apache License, Version 2.0 (see LICENSE).
 
 The pet package format (an 8-column atlas, the Codex v2 row layout for rows 0-10,
 and the idea of cutting animation frames from generated strips) derives from

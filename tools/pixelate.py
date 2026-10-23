@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Turn any image into compliant pixel art for a Claude pet cell.
+"""Turn any image into compliant pixel art for a Pixel Pets cell.
 
 Steps: remove the background (existing transparency, or a given / auto-detected
 chroma key flood-filled from the border), detect and undo an integer upscale

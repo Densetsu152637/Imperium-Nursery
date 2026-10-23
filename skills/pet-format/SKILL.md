@@ -1,9 +1,9 @@
 ---
 name: pet-format
-description: Reference for the Claude Pets v3 pet format covering package layout, 8 x 22 atlas, pixel-art rules, pet.json fields, the 22 animations, custom animations, behaviour priorities and fallbacks. Use when authoring or editing a pet by hand, building tools that read or write pets, or answering questions about what a pet package must contain.
+description: Reference for the Pixel Pets v3 pet format covering package layout, 8 x 22 atlas, pixel-art rules, pet.json fields, the 22 animations, custom animations, behaviour priorities and fallbacks. Use when authoring or editing a pet by hand, building tools that read or write pets, or answering questions about what a pet package must contain.
 ---
 
-# Claude Pets format v3 (summary)
+# Pixel Pets format v3 (summary)
 
 The normative contract is [pet-format-v3.md](../../docs/pet-format-v3.md). This is a quick reference; when a detail matters (frame counts, durations, arbiter rules), read the spec. The CLIs are in `${CLAUDE_PLUGIN_ROOT}/tools/`; to make a pet use the `hatch-pet` skill, to convert a Codex pet use `import-codex-pet`.
 

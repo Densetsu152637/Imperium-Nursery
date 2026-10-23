@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Convert a Codex pet (pet.json + 8 x 11 v2 or 8 x 9 v1 spritesheet) into a Claude pet v3 package.
+"""Convert a Codex pet (pet.json + 8 x 11 v2 or 8 x 9 v1 spritesheet) into a Pixel Pets v3 package.
 
 Codex rows 0-10 (idle, running-right, running-left, waving, jumping, failed,
 waiting, running, review, 16 look directions) keep their meaning in v3 and are
@@ -185,7 +185,7 @@ def import_pet(
 
 
 def main(argv=None) -> int:
-    p = argparse.ArgumentParser(description="Import a Codex v2 pet as a Claude pet v3 package.")
+    p = argparse.ArgumentParser(description="Import a Codex v2 pet as a Pixel Pets v3 package.")
     p.add_argument("src", type=Path, help="Codex pet folder or its pet.json")
     p.add_argument("--out-dir", type=Path, default=Path("."), help="parent for the <id>/ package folder")
     p.add_argument("--id", help="pet id (default: from the Codex pet)")

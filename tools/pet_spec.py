@@ -1,4 +1,4 @@
-"""Claude Pets format v3: the in-code copy of the animation table and limits.
+"""Pixel Pets format v3: the in-code copy of the animation table and limits.
 
 Every tool imports this module; ``docs/pet-format-v3.md`` is the normative
 contract and this file must mirror it. No command line interface.
@@ -159,7 +159,7 @@ def default_pet_json(pet_id: str, cell: int | tuple[int, int], **extra) -> dict:
     pet = {
         "id": pet_id,
         "displayName": pet_id.replace("-", " ").title(),
-        "description": "A Claude pet.",
+        "description": "A Pixel Pets pet.",
         "author": "unknown",
         "license": "unspecified",
         "spriteVersionNumber": SPRITE_VERSION,

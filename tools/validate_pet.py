@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate a Claude pet package against docs/pet-format-v3.md.
+"""Validate a Pixel Pets package against docs/pet-format-v3.md.
 
 Checks pet.json (schema, custom animations), the atlas (PNG, RGBA, size),
 the pixel-art rules per cell (<=128 px, binary alpha, <= maxColors colours,
@@ -354,7 +354,7 @@ def render(rep: Report, pet_dir: Path) -> str:
 
 
 def main(argv=None) -> int:
-    p = argparse.ArgumentParser(description="Validate a Claude pet package (format v3).")
+    p = argparse.ArgumentParser(description="Validate a Pixel Pets package (format v3).")
     p.add_argument("pet_dir", type=Path)
     p.add_argument("--json", action="store_true", help="print the report as JSON")
     a = p.parse_args(argv)

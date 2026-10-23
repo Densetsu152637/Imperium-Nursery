@@ -494,7 +494,7 @@ PET = pet_spec.default_pet_json(
     CELL,
     displayName="Pixel Clawd",
     description="The Clawd crab from the agents panel, drawn in 32 x 32 pixel art.",
-    author="Claude Pets",
+    author="Pixel Pets",
     license="Apache-2.0",
 )
 

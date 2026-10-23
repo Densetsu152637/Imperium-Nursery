@@ -1,4 +1,4 @@
-// The contract of the clawd-pets mod: the values it keeps in `$.state`.
+// The contract of the pixel-pets mod: the values it keeps in `$.state`.
 // The mod exposes no noun on `$`; it draws its own pane. Self-contained: no imports.
 
 /** One animation the arbiter has on screen. `kind` is how it ends. */
@@ -67,7 +67,7 @@ export type PetsArbiter = {
 
 declare module 'claude-code' {
   interface PluginState {
-    'clawd-pets': {
+    'pixel-pets': {
       arbiter: PetsArbiter | null
       /** The id of the pet in use. */
       selection: string
