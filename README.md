@@ -16,25 +16,28 @@ The pet format extends the Codex `hatch-pet` format (v2: 9 states and 16 look di
 
 ## Install
 
-This is how installation will work once the plugin is published to `Densetsu152637/Pixel-Pets`. It is not available from that marketplace yet.
+Pixel Pets installs as a plugin from its GitHub repository. In a Claude Code terminal session:
 
 ```text
 /plugin marketplace add Densetsu152637/Pixel-Pets
 /plugin install pixel-pets@pixel-pets
 ```
 
-The plugin provides the `pixel-pets` mod and the three skills below. The tools need Python 3 with [Pillow](https://pypi.org/project/pillow/).
+The plugin provides the `pixel-pets` mod (the pet pane and the `/pet` command) and the three skills below, and ships `tools/`, `docs/`, `skills/` and the sample pet in `pets/`. The tools need Python 3 with [Pillow](https://pypi.org/project/pillow/). The sample pet `pixel-clawd` is not installed automatically: run `python tools/package_pet.py pets/pixel-clawd --install` (or copy the folder to `~/.claude/pets/pixel-clawd`) so the mod finds it.
 
 ## Using the pet
 
-Pets are folders in `~/.claude/pets/<id>/`. The default pet is `pixel-clawd`.
+Pets are folders in `<pets folder>/<id>/`. The pets folder is the `petsDir` option if set, else the `CLAUDE_PETS_DIR` environment variable, else `~/.claude/pets`. The default pet is `pixel-clawd`.
+
+On the desktop the pet is drawn as an animated image in a pane, with a "pat" button under it. The terminal cannot crop a frame out of a strip, so it shows a text line `<name> · <animation>` and the pat button.
 
 | Command | Effect |
 | --- | --- |
-| `/pet` | Show the current pet. |
-| `/pet use <id>` | Switch to the installed pet `<id>`. |
+| `/pet` | Status: the current pet and animation, and the installed pets. |
+| `/pet use <id>` | Switch to the installed pet `<id>`; remembered for later sessions. |
 | `/pet pat` | Pat the pet (plays `petted`). |
-| `/pet hide`, `/pet show` | Hide the pet (`duck-in`) or bring it back (`pop-out`). |
+| `/pet hide` | Play `duck-in`, then hide the pet. |
+| `/pet show` | Bring a hidden pet back (plays `pop-out`). |
 | `/pet open`, `/pet close` | Open or close the pet's pane. |
 
 Options:
@@ -42,10 +45,31 @@ Options:
 | Option | Default | Meaning |
 | --- | --- | --- |
 | `pet` | `pixel-clawd` | Pet id to load. |
-| `sleepAfterMinutes` | 5 | Idle time before the pet falls asleep. |
-| `fidget` | on | Occasional idle variety (stretch, yawn, scratch). |
-| `openAtStart` | on | Open the pane at session start. |
-| `size` | 96 | Display size in pixels. |
+| `sleepAfterMinutes` | 5 | Idle minutes before the pet falls asleep; 0 never sleeps. |
+| `fidget` | on | on/off. While idle, a fidget every 20-60 seconds; off, it only breathes. |
+| `openAtStart` | on | on/off. Open the pane when a session starts; off, only `/pet open` opens it. |
+| `size` | 96 | Display size in pixels, clamped to 24-512 (and to the pane width). |
+| `petsDir` | (empty) | Absolute path of the pets folder; empty uses `CLAUDE_PETS_DIR`, then `~/.claude/pets`. |
+
+### What the pet reacts to
+
+| Claude Code event | Animation |
+| --- | --- |
+| Session starts | `pop-out`, then `waving` |
+| Main turn starts / ends cleanly / errors | `working` loop / `jumping` / `failed` |
+| Subagent dispatched | `summoning`, then its `working` loop (`review` for a reviewer) |
+| Subagent finishes / fails | `jumping` / `failed`, with a glance toward it |
+| Tool call fails | `failed`; if the error says it was refused or denied, `confused` |
+| Tool call denied by a rule or hook | `confused` |
+| Permission prompt or `AskUserQuestion` | `waiting` until the call returns |
+| Subagent waiting while the main turn works | `alert` |
+| `git commit`, `gh pr merge` or a test run that exits 0 | `celebrating` |
+| Context compaction | `eating` |
+| `/pet pat` or the pat button | `petted` |
+| Idle past `sleepAfterMinutes` / while idle | `sleeping` / `fidget` every 20-60 s |
+| Any event while asleep | `waking` first |
+
+Known gaps: Claude Code has no event for "a permission prompt is open", so the mod infers it from a `tool.check` verdict of `ask` and clears it when the call returns (a prompt answered by the auto-mode classifier looks the same as one a person answers). "Denied" is recognised by the wording of the error the model receives, which is not a stable API.
 
 ## Making a pet
 

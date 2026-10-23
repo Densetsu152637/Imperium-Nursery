@@ -44,6 +44,10 @@ Tools: `${CLAUDE_PLUGIN_ROOT}/tools/` (needs Pillow). Use `python`.
 
 ## Notes
 
-- v1 Codex pets (8 x 9 atlas, no look rows) import with the look direction row falling back to `idle`; v2 pets (8 x 11) import fully. The importer reads the Codex manifest keys it finds; if it reports a missing or unreadable spritesheet, check the folder for the sheet file (PNG or WebP) and the manifest path.
+- v1 Codex pets (8 x 9 atlas, no look rows) import with `look` falling back to `idle`; v2 pets (8 x 11) import fully.
+- The version is read from `spriteVersionNumber`, `sprite_version` or `spriteVersion`, and inferred from the atlas size when none is given.
+- The sheet is read from `spritesheetPath`, `spritesheet` or `spritesheet_file`; if the named file is missing, the single `spritesheet*.png` or `.webp` in the folder is used, and the import fails when there are none or several (name one in `pet.json`).
+- The name comes from `displayName` or `name`. When the id is opaque (like `pet_3fa9c2d1e8b7`), the id is a slug derived from the name; `--id` overrides it.
+- `pet.json` records `"importedFrom": "codex-v1"` or `"codex-v2"`.
 - Keep the source folder untouched; the importer only reads it.
 - The output goes to `--out-dir` (default: the current directory), so pass a work folder, not the source folder.

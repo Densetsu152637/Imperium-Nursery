@@ -59,7 +59,7 @@ Pets are pixel art. `tools/validate_pet.py` enforces these for v3 packages; impo
 
 ## Animations
 
-Each animation has: `row` (first atlas row), `frames` (1-16; more than 8 continues on the next row), `durations` (one value in ms per frame, or one value for all), `loop` (`true` for a state, `false` for a one-shot reaction), `priority` (P0-P6, below), `minMs` (minimum time on screen before another animation of the same or lower priority may replace it, default 600), `next` (one-shots only: what plays after; default: whatever loop wins), and `fallback` (the animation to use when this pet does not draw this one).
+Each animation has: `row` (first atlas row), `frames` (1-16; more than 8 continues on the next row), `durations` (one value in ms per frame, or one value for all), `loop` (`true` for a state, `false` for a one-shot reaction; custom animations default to `false`), `priority` (`"P0"`-`"P6"` or an integer 0-6, below), `minMs` (minimum time on screen before another animation of the same or lower priority may replace it, default 600), `next` (one-shots only: what plays after; default: whatever loop wins), and `fallback` (the animation to use when this pet does not draw this one).
 
 | Row | Name | Frames | Durations (ms) | Kind | Priority | Fallback | Codex v2 name |
 | --- | --- | --: | --- | --- | --- | --- | --- |
@@ -85,7 +85,13 @@ Each animation has: `row` (first atlas row), `frames` (1-16; more than 8 continu
 | 20 | `alert` | 4 | 120 each | loop | P1 | `waiting` | (new) |
 | 21 | `petted` | 6 | 120 x5, 260 | once | P0 | `waving` | (new) |
 
-Look directions: row 9 holds 000, 022.5, 045, 067.5, 090, 112.5, 135, 157.5 degrees; row 10 holds 180 through 337.5. `000` is up (12 o'clock), clockwise. Front/neutral is not a look cell; it is `idle`.
+Custom animations default to `loop: false` and priority P4.
+
+The `pop-out` strip ends on the pet's idle pose; the `duck-in` strip ends fully transparent.
+
+The `look` strip (`strips/look.png`) is one 16-cell strip ordered 000, 022.5, 045 ... 337.5 degrees. Look directions: row 9 holds 000, 022.5, 045, 067.5, 090, 112.5, 135, 157.5 degrees; row 10 holds 180 through 337.5. `000` is up (12 o'clock), clockwise. Front/neutral is not a look cell; it is `idle`.
+
+An animation counts as drawn when its strip exists, has the right size (frames x cell width by cell height) and is within the size limit; otherwise its fallback is used.
 
 Fallback resolution: if a pet's cells for an animation are all transparent, or a custom animation is missing, follow `fallback` until an animation the pet draws is reached. `idle` must always be drawn.
 
