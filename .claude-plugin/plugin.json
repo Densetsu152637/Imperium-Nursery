@@ -1,0 +1,53 @@
+{
+  "name": "clawd-pets",
+  "version": "0.1.0",
+  "description": "A pixel pet that lives in its own pane and reacts to your session: it works while a turn runs, waits when Claude needs you, celebrates commits and passing tests, and naps when idle. Loads v3 pet packages from ~/.claude/pets.",
+  "author": {
+    "name": "Densetsu152637",
+    "url": "https://github.com/Densetsu152637"
+  },
+  "homepage": "https://github.com/Densetsu152637/Claude-Pets",
+  "repository": "https://github.com/Densetsu152637/Claude-Pets",
+  "license": "Apache-2.0",
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "pet": {
+      "type": "string",
+      "title": "Pet",
+      "description": "The id of the installed pet to show (a folder in ~/.claude/pets). /pet use <id> changes it for later sessions too.",
+      "default": "pixel-clawd"
+    },
+    "sleepAfterMinutes": {
+      "type": "number",
+      "title": "Sleep after (minutes)",
+      "description": "Idle minutes before the pet falls asleep; 0 never sleeps.",
+      "default": 5
+    },
+    "fidget": {
+      "type": "string",
+      "title": "Fidget",
+      "description": "on: while idle, the pet stretches or scratches every 20 to 60 seconds. off: it only breathes.",
+      "default": "on",
+      "options": ["on", "off"]
+    },
+    "openAtStart": {
+      "type": "string",
+      "title": "Open the pet pane at start",
+      "description": "on: the pet pane opens when a session starts. off: only /pet open opens it.",
+      "default": "on",
+      "options": ["on", "off"]
+    },
+    "size": {
+      "type": "number",
+      "title": "Pet size (px)",
+      "description": "Width and height the pet is drawn to fit, in pixels (24 to 512).",
+      "default": 96
+    },
+    "petsDir": {
+      "type": "string",
+      "title": "Pets folder",
+      "description": "Absolute path of the folder holding pet packages. Empty uses CLAUDE_PETS_DIR, then ~/.claude/pets.",
+      "default": ""
+    }
+  }
+}
