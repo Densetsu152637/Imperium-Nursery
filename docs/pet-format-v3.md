@@ -1,6 +1,6 @@
 # Claude Pets format, version 3
 
-This is the normative contract for a Claude pet package, the animation set, the behaviour priorities, and the `$.pet` interface the mod exposes to other mods. The tooling, the mod, the skills, and the crew-progress integration all implement this file; change it first when the contract changes.
+This is the normative contract for a Claude pet package, the animation set, the behaviour priorities, and how the `claude-pets` mod draws a pet. The tooling, the mod and the skills all implement this file; change it first when the contract changes.
 
 Version 3 extends the Codex pet format (`spriteVersionNumber: 2`, from OpenAI's Apache-2.0 `hatch-pet` skill). Rows 0-10 keep Codex v2's meaning and order, so a Codex pet imports without redrawing.
 
@@ -129,39 +129,16 @@ A **source** is anything that produces pet events: the main conversation, each r
 
 `alert` is raised when a source other than the shown one enters a P1 loop while the shown source holds a loop of P2 or lower. In single-chat mode that means a subagent waiting on the person while the main turn works.
 
-## The `$.pet` interface
+## Drawing
 
-The `claude-pets` mod adds the noun `pet` to `$` in `engine.create`. Its types are the contract `types/index.d.ts` in the Claude-Pets repository; a mod that draws the pet lists `claude-pets` under `dependencies` and must also work when `$.pet` is absent (draw its own fallback).
+The `claude-pets` mod is self-contained: it exposes no interface to other mods and does not read or draw into theirs.
 
-```ts
-export type PetView = {
-  /** The pet package's id, display name, and the animation shown now. */
-  petId: string
-  displayName: string
-  animation: string
-  /** True after `duck-in` until `pop-out`: draw nothing (or a fallback). */
-  isHidden: boolean
-  /**
-   * A self-contained SVG fragment, `<svg x="0" y="0" width=".." height="..">...</svg>`, sized to
-   * `size` and animated by CSS keyframes. The animation's negative delay is
-   * computed from `now`, so a fragment re-rendered every second stays in phase.
-   */
-  svg: string
-  width: number
-  height: number
-}
-
-export type Pet = {
-  /** The view of the main session's pet at `now`, scaled to fit `size` x `size` pixels; null when no pet is installed or chosen. */
-  view(options: { now: number; size: number }): Promise<PetView | null>
-  /** Report a press on the drawn pet; plays `petted`. */
-  pat(): Promise<void>
-}
-```
-
-`view` reads the mod's `$.state`, so a render hook that calls it is redrawn when the pet's animation changes.
+- It draws the pet in its own pane (id `pet`, titled with the pet's display name), opened at session start unless the `openAtStart` option is `off`, and toggled with `/pet open` and `/pet close`. It does not draw in the band above the prompt.
+- Desktop, VS Code and mobile: one `Svg` holding the current animation's strip as a `data:image/png;base64` image, cropped to one frame, scaled with nearest-neighbour to the `size` option (default 96 px) within the pane's width, and animated by CSS keyframes. The keyframes' negative `animation-delay` is computed from the time of drawing, so a redraw stays in phase.
+- Terminal: the current frame through the `Image` element where the terminal can show pictures; otherwise one line of text naming the pet and its animation.
+- Hidden (after `duck-in`): the pane shows nothing until `pop-out`.
 
 ## Limitations and future work
 
-- **Chat-specific, in-window.** In version 3 the pet lives inside one session's window, drawn by the crew-progress agents panel in place of the main session's crab. It cannot float outside the panel and does not see other chats.
-- **Planned refactor: pop-out and multi-chat.** The target is a Codex-style pet that pops out of the panel and reacts to every live chat at once. The arbiter already treats events as coming from sources with priorities, so the refactor replaces the source registry (main conversation + subagents) with one that also tracks other sessions, and replaces the panel slot with a floating surface. Both depend on Claude Code capabilities that do not exist yet: a cross-session event feed for mods, and a surface that can draw outside the transcript and panes.
+- **Chat-specific, in-window.** In version 3 the pet lives in a pane inside one session's window. It cannot float outside the window and does not see other chats.
+- **Planned refactor: pop-out and multi-chat.** The target is a Codex-style pet that pops out of the panel and reacts to every live chat at once. The arbiter already treats events as coming from sources with priorities, so the refactor replaces the source registry (main conversation + subagents) with one that also tracks other sessions, and replaces the pane with a floating surface. Both depend on Claude Code capabilities that do not exist yet: a cross-session event feed for mods, and a surface that can draw outside the transcript and panes.
