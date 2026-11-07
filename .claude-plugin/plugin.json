@@ -9,7 +9,7 @@
   },
   "homepage": "https://github.com/Densetsu152637/Pixel-Pets",
   "repository": "https://github.com/Densetsu152637/Pixel-Pets",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "types": "./types/index.d.ts",
   "userConfig": {
     "pet": {

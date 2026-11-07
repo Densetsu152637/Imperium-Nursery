@@ -129,4 +129,4 @@ Priority: P0 highest. Full table (frame counts, durations, fallbacks) in the [fo
 
 ## Licensing and credits
 
-Apache-2.0; see [LICENSE](LICENSE). The pet format extends the pet format of OpenAI's Apache-2.0 `hatch-pet` skill for Codex; the 8-column atlas, the Codex v2 row layout for rows 0-10 and the idea of cutting frames from generated strips derive from it. The tools are original implementations. See [NOTICE](NOTICE). Pets you make or import keep their own licences, recorded in each `pet.json`.
+MIT; see [LICENSE](LICENSE). The pet format extends the pet format of OpenAI's Apache-2.0 `hatch-pet` skill for Codex; the 8-column atlas, the Codex v2 row layout for rows 0-10 and the idea of cutting frames from generated strips derive from it. The tools are original implementations. See [NOTICE](NOTICE). Pets you make or import keep their own licences, recorded in each `pet.json`.

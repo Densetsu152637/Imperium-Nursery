@@ -495,7 +495,7 @@ PET = pet_spec.default_pet_json(
     displayName="Pixel Clawd",
     description="The Clawd crab from the agents panel, drawn in 32 x 32 pixel art.",
     author="Pixel Pets",
-    license="Apache-2.0",
+    license="MIT",
 )
 
 
