@@ -108,4 +108,4 @@ If a pet's cells for an animation are all transparent (or a custom animation is 
 
 ## Tools
 
-`pixelate.py`, `extract_strip_frames.py`, `compose_atlas.py`, `package_pet.py`, `validate_pet.py`, `import_codex_pet.py`, `contact_sheet.py`, `preview_gif.py`, `make_sample_pet.py`, all in `${CLAUDE_PLUGIN_ROOT}/tools/`; run each with `--help`. The sample package `pets/pixel-clawd/` is a working example.
+`pixelate.py`, `extract_strip_frames.py`, `compose_atlas.py`, `package_pet.py`, `validate_pet.py`, `import_codex_pet.py`, `contact_sheet.py`, `preview_gif.py`, `make_sample_pet.py`, all in `${CLAUDE_PLUGIN_ROOT}/tools/`; run each with `--help`. The sample package `pets/pixel-clawd/` in the Imperium-Nursery repository is a working example (not bundled with this plugin).

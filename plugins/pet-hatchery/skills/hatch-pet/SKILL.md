@@ -1,6 +1,6 @@
 ---
 name: hatch-pet
-description: Create a Pixel Pet, a v3 pixel-art animated pet for the pixel-pets mod, from a concept, reference images or brand cues. Use when the user wants to make, design, draw or hatch a new pet, mascot or sprite for Claude Code, or to add or redo animation rows of an existing pet. Works with any image generation tool, user-supplied art, or hand-drawn pixel art.
+description: Create a Pixel Pet, a v3 pixel-art animated pet for the imperium-nursery mod, from a concept, reference images or brand cues. Use when the user wants to make, design, draw or hatch a new pet, mascot or sprite for Claude Code, or to add or redo animation rows of an existing pet. Works with any image generation tool, user-supplied art, or hand-drawn pixel art.
 ---
 
 # Hatch Pet
@@ -61,7 +61,7 @@ The pet lives in a working folder (call it `WORK`, for example `./pets-work/<id>
     python "${CLAUDE_PLUGIN_ROOT}/tools/package_pet.py" WORK --install
     ```
     This copies the package to `~/.claude/pets/<id>/`. Add `--install-dir DIR` to install elsewhere.
-13. **Select it** with `/pet use <id>` (requires the `pixel-pets` mod from this plugin).
+13. **Select it** with `/pet use <id>` (requires the `imperium-nursery` plugin, installed separately).
 
 ## Rules
 

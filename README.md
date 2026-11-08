@@ -1,8 +1,8 @@
-# Pixel Pets
+# Imperium Nursery
 
-Pixel Pets is a pixel-art, animated pet for Claude Code. It sits in its own pane beside your chat and reacts to what the session is doing: it works while a turn runs, waits when Claude needs you, celebrates a commit, flinches at a failure, falls asleep when you leave. It also ships the tools and skills to make your own pet or bring one over from OpenAI Codex.
+Imperium Nursery is a pixel-art, animated pet for Claude Code (formerly Pixel Pets). It sits in its own pane beside your chat and reacts to what the session is doing: it works while a turn runs, waits when Claude needs you, celebrates a commit, flinches at a failure, falls asleep when you leave. The repository holds two independent Claude Code plugins: `imperium-nursery`, the mod that shows the pet, and `pet-hatchery`, the skills and tools that make pets or bring one over from OpenAI Codex. The Imperium desktop app ships its own Imperium-Nursery mod (with multi-pet nurseries) that reads the same pet format.
 
-The pet format extends the Codex `hatch-pet` format (v2: 9 states and 16 look directions) to a v3 format with 22 animations and behaviour priorities. See [docs/pet-format-v3.md](docs/pet-format-v3.md).
+The pet format (still named "Pixel Pets v3", `spriteVersionNumber: 3`) extends the Codex `hatch-pet` format (v2: 9 states and 16 look directions) to a v3 format with 22 animations and behaviour priorities. See [plugins/pet-hatchery/docs/pet-format-v3.md](plugins/pet-hatchery/docs/pet-format-v3.md).
 
 ## Features
 
@@ -12,18 +12,31 @@ The pet format extends the Codex `hatch-pet` format (v2: 9 states and 16 look di
 - Open format: a plain folder with `pet.json`, an 8 x 22 atlas PNG and per-animation strips. Missing animations fall back (a minimal pet needs only `idle`).
 - Codex import: convert Codex v1 and v2 pets to v3.
 - Creation tooling: Python CLIs for pixelating, cutting, composing, validating, packaging and previewing, plus Claude Code skills that drive them with any image generation tool.
-- Sample pet: `pixel-clawd`, a procedurally drawn crab in [pets/pixel-clawd](pets/pixel-clawd).
+- Sample pet: `pixel-clawd`, a procedurally drawn crab in [pets/pixel-clawd](pets/pixel-clawd), shared by both plugins.
+
+## Repository layout
+
+| Path | Contents |
+| --- | --- |
+| `plugins/imperium-nursery/` | The mod: the pet pane and the `/pet` command (`hooks/`, `types/`, plugin manifest with options). |
+| `plugins/pet-hatchery/` | Pet creation: three skills (`skills/`), Python tools (`tools/`), tests, and the format spec (`docs/`). |
+| `pets/pixel-clawd/` | Sample pet. |
+| `.claude-plugin/marketplace.json` | Marketplace `imperium-nursery` listing both plugins. |
 
 ## Install
 
-Pixel Pets installs as a plugin from its GitHub repository. In a Claude Code terminal session:
+Both plugins install from this repository's marketplace. In a Claude Code terminal session:
 
 ```text
-/plugin marketplace add Densetsu152637/Pixel-Pets
-/plugin install pixel-pets@pixel-pets
+/plugin marketplace add Densetsu152637/Imperium-Nursery
+/plugin install imperium-nursery@imperium-nursery
+/plugin install pet-hatchery@imperium-nursery
 ```
 
-The plugin provides the `pixel-pets` mod (the pet pane and the `/pet` command) and the three skills below, and ships `tools/`, `docs/`, `skills/` and the sample pet in `pets/`. The tools need Python 3 with [Pillow](https://pypi.org/project/pillow/). The sample pet `pixel-clawd` is not installed automatically: run `python tools/package_pet.py pets/pixel-clawd --install` (or copy the folder to `~/.claude/pets/pixel-clawd`) so the mod finds it.
+- `imperium-nursery` is the mod (the pet pane and the `/pet` command). Install it to see a pet.
+- `pet-hatchery` is optional and independent: install it to create, import, validate and package pets. Its tools need Python 3 with [Pillow](https://pypi.org/project/pillow/).
+
+The sample pet `pixel-clawd` is not installed automatically: from a clone of this repository run `python plugins/pet-hatchery/tools/package_pet.py pets/pixel-clawd --install` (or copy the folder to `~/.claude/pets/pixel-clawd`) so the mod finds it.
 
 ## Using the pet
 
@@ -73,7 +86,7 @@ Known gaps: Claude Code has no event for "a permission prompt is open", so the m
 
 ## Making a pet
 
-Three skills ship in the plugin (in [skills/](skills)):
+Three skills ship in the `pet-hatchery` plugin (in [plugins/pet-hatchery/skills](plugins/pet-hatchery/skills)):
 
 - **`hatch-pet`**: create a pet from a concept, reference images or brand cues. Works with any image generation tool you have, art you supply, or hand-drawn pixel art by script. It generates a base sprite, then one strip per animation, and assembles, validates, QA-checks and installs the package.
 - **`import-codex-pet`**: convert a Codex pet to v3, then validate, preview and install it.
@@ -83,18 +96,18 @@ Ask Claude, for example, "hatch a pet: a small robot with a blue visor". The too
 
 | Tool | Purpose |
 | --- | --- |
-| `tools/pixelate.py` | Turn an image into compliant pixel art in one cell. |
-| `tools/extract_strip_frames.py` | Cut a generated horizontal strip into frames. |
-| `tools/compose_atlas.py` | Compose `frames/<animation>/NN.png` into the 8 x 22 atlas. |
-| `tools/package_pet.py` | Cut `strips/`, validate, optionally install (`--install`). |
-| `tools/validate_pet.py` | Check a package against the format. |
-| `tools/import_codex_pet.py` | Convert a Codex v1 or v2 pet. |
-| `tools/contact_sheet.py`, `tools/preview_gif.py` | Contact sheet and GIF previews for QA. |
-| `tools/make_sample_pet.py` | Draw the sample pet; an example of scripted pixel art. |
+| `plugins/pet-hatchery/tools/pixelate.py` | Turn an image into compliant pixel art in one cell. |
+| `plugins/pet-hatchery/tools/extract_strip_frames.py` | Cut a generated horizontal strip into frames. |
+| `plugins/pet-hatchery/tools/compose_atlas.py` | Compose `frames/<animation>/NN.png` into the 8 x 22 atlas. |
+| `plugins/pet-hatchery/tools/package_pet.py` | Cut `strips/`, validate, optionally install (`--install`). |
+| `plugins/pet-hatchery/tools/validate_pet.py` | Check a package against the format. |
+| `plugins/pet-hatchery/tools/import_codex_pet.py` | Convert a Codex v1 or v2 pet. |
+| `plugins/pet-hatchery/tools/contact_sheet.py`, `preview_gif.py` | Contact sheet and GIF previews for QA. |
+| `plugins/pet-hatchery/tools/make_sample_pet.py` | Draw the sample pet; an example of scripted pixel art. |
 
 ## Animations
 
-Priority: P0 highest. Full table (frame counts, durations, fallbacks) in the [format spec](docs/pet-format-v3.md#animations).
+Priority: P0 highest. Full table (frame counts, durations, fallbacks) in the [format spec](plugins/pet-hatchery/docs/pet-format-v3.md#animations).
 
 | Name | Priority | Trigger |
 | --- | --- | --- |
@@ -120,7 +133,7 @@ Priority: P0 highest. Full table (frame counts, durations, fallbacks) in the [fo
 
 ## Format
 
-[docs/pet-format-v3.md](docs/pet-format-v3.md) is the normative contract for the package layout, atlas, pixel-art rules, `pet.json`, animations, priorities and drawing. The tools, the mod and the skills all implement it.
+[plugins/pet-hatchery/docs/pet-format-v3.md](plugins/pet-hatchery/docs/pet-format-v3.md) is the normative contract for the package layout, atlas, pixel-art rules, `pet.json`, animations, priorities and drawing. The tools, the mod and the skills all implement it.
 
 ## Limitations and future work
 
@@ -129,4 +142,4 @@ Priority: P0 highest. Full table (frame counts, durations, fallbacks) in the [fo
 
 ## Licensing and credits
 
-MIT; see [LICENSE](LICENSE). The pet format extends the pet format of OpenAI's Apache-2.0 `hatch-pet` skill for Codex; the 8-column atlas, the Codex v2 row layout for rows 0-10 and the idea of cutting frames from generated strips derive from it. The tools are original implementations. See [NOTICE](NOTICE). Pets you make or import keep their own licences, recorded in each `pet.json`.
+MIT; see [LICENSE](LICENSE). The pet format (still named "Pixel Pets v3", `spriteVersionNumber: 3`) extends the pet format of OpenAI's Apache-2.0 `hatch-pet` skill for Codex; the 8-column atlas, the Codex v2 row layout for rows 0-10 and the idea of cutting frames from generated strips derive from it. The tools are original implementations. See [NOTICE](NOTICE). Pets you make or import keep their own licences, recorded in each `pet.json`.

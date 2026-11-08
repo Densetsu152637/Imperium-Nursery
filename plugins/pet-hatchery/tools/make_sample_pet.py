@@ -500,9 +500,8 @@ PET = pet_spec.default_pet_json(
 
 
 def main(argv=None) -> int:
-    root = Path(__file__).resolve().parent.parent
     p = argparse.ArgumentParser(description="Draw the sample pet pixel-clawd, package and validate it.")
-    p.add_argument("--out", type=Path, default=root / "pets" / "pixel-clawd")
+    p.add_argument("--out", type=Path, default=Path("pets") / "pixel-clawd")
     p.add_argument("--frames-dir", type=Path, help="also dump frames/<animation>/NN.png here")
     a = p.parse_args(argv)
     frames = build_frames()

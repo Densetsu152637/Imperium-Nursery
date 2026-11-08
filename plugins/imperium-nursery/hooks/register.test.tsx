@@ -4,7 +4,7 @@ import type { Engine } from 'claude-code/testing'
 
 import { TINY_PET_JSON, TINY_STRIPS } from './fixtures/tiny'
 
-const PLUGIN = 'pixel-pets'
+const PLUGIN = 'imperium-nursery'
 const NOW = Date.parse('2026-10-23T12:00:00Z')
 const pane = { title: '', isFocused: false, bodyColumns: 60, placement: 'dock', scroll: { offset: 0, bodyRows: 30 }, view: {} } as const
 

@@ -1,0 +1,13 @@
+{
+  "name": "pet-hatchery",
+  "displayName": "Pet Hatchery",
+  "version": "0.1.0",
+  "description": "Skills and tools to hatch, import, validate and package Pixel Pets v3 pets: create a pet from a concept, convert an OpenAI Codex pet, and check or package the result.",
+  "author": {
+    "name": "Densetsu152637",
+    "url": "https://github.com/Densetsu152637"
+  },
+  "homepage": "https://github.com/Densetsu152637/Imperium-Nursery",
+  "repository": "https://github.com/Densetsu152637/Imperium-Nursery",
+  "license": "MIT"
+}
