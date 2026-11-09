@@ -11,7 +11,7 @@ import type { Catalog, PetDef } from './pet'
 import { pngSize } from './png'
 import { SVG_LIMIT, renderFragment } from './render'
 
-// pixel-pets: a pixel pet in its own pane. It shares nothing with other mods: its state keys,
+// imperium-nursery: a pixel pet in its own pane. It shares nothing with other mods: its state keys,
 // its pane (`pet`) and its command (`/pet`) are its own, and it draws nowhere else.
 //
 // EVENT MAP (Claude Code event -> arbiter input -> animation)
@@ -52,8 +52,8 @@ const COMMAND = 'pet'
 const RECHECK_MS = 3000
 const DEFAULT_PET = 'pixel-clawd'
 
-const arbiterAtom = atom({ plugin: 'pixel-pets', key: 'arbiter' } as const, null)
-const selectionAtom = atom({ plugin: 'pixel-pets', key: 'selection' } as const, '')
+const arbiterAtom = atom({ plugin: 'imperium-nursery', key: 'arbiter' } as const, null)
+const selectionAtom = atom({ plugin: 'imperium-nursery', key: 'selection' } as const, '')
 
 // --- options and module caches (a reload starts them over) ----------------------------------
 
@@ -90,7 +90,7 @@ const blockedIds = new Set<string>()
 const warnOnce = ($: EngineInterface, key: string, text: string): void => {
   if (warned.has(key)) return
   warned.add(key)
-  void $.ui.log(`pixel-pets: ${text}`)
+  void $.ui.log(`imperium-nursery: ${text}`)
 }
 
 // --- the pets folder --------------------------------------------------------------------------
@@ -143,7 +143,7 @@ async function getPet($: EngineInterface, id: string, now: number): Promise<PetE
   try {
     entries = await $.fs.list(`${dir}/${def.stripsPath}`)
   } catch {
-    return fail(`${id}: no strips folder (run tools/package_pet.py)`)
+    return fail(`${id}: no strips folder (run the pet-hatchery package_pet.py tool)`)
   }
   const strips = new Map<string, { size: number; mtimeMs: number }>()
   for (const f of entries) {

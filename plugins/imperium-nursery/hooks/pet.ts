@@ -1,4 +1,4 @@
-// The pet package, pure parts: the v3 animation table (docs/pet-format-v3.md) and the
+// The pet package, pure parts: the v3 animation table (plugins/pet-hatchery/docs/pet-format-v3.md) and the
 // validation of a pet.json. No `$` here; register.tsx does the reading.
 
 export type Anim = {
@@ -114,7 +114,7 @@ export function parsePetJson(text: string, folderId: string): ParseResult {
   const id = raw.id
   if (typeof id !== 'string' || !/^[a-z0-9-]+$/.test(id)) return { ok: false, error: 'id must be lowercase letters, digits and hyphens' }
   if (id !== folderId) return { ok: false, error: `id "${id}" does not equal the folder name "${folderId}"` }
-  if (raw.spriteVersionNumber !== 3) return { ok: false, error: 'spriteVersionNumber must be 3 (run tools/package_pet.py on a Codex pet)' }
+  if (raw.spriteVersionNumber !== 3) return { ok: false, error: 'spriteVersionNumber must be 3 (run the pet-hatchery package_pet.py tool on a Codex pet)' }
   const cell = isObj(raw.cell) ? raw.cell : {}
   const width = posInt(cell.width, 16, 128)
   const height = posInt(cell.height, 16, 128)

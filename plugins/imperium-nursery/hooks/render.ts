@@ -1,5 +1,5 @@
 // Builds the pet's SVG fragment: a nested <svg> that shows one cell of an animation strip,
-// animated by CSS keyframes (docs/pet-format-v3.md, "Drawing"). Pure: no `$`.
+// animated by CSS keyframes (plugins/pet-hatchery/docs/pet-format-v3.md, "Drawing"). Pure: no `$`.
 
 /** The desktop `Svg` element's source limit, in characters. */
 export const SVG_LIMIT = 131_072

@@ -1,4 +1,4 @@
-// The pet's behaviour arbiter (docs/pet-format-v3.md, "Behaviour priorities"): PURE, no `$`.
+// The pet's behaviour arbiter (plugins/pet-hatchery/docs/pet-format-v3.md, "Behaviour priorities"): PURE, no `$`.
 //
 // It takes timestamped events and answers what animation is on screen, since when, and
 // which way the pet looks. All state is plain data (PetsArbiter) so the mod keeps it in

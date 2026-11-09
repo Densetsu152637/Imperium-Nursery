@@ -74,7 +74,7 @@ Use the template and insert the poses from the animation guide. Extra notes by a
 
 ## Fallbacks
 
-- **No image tool available.** Say so, then offer: (a) the user supplies art (concept art for the base; full strips if they have them); (b) hand-drawn pixel art by script: write a small Python/Pillow script that draws each pose as a pixel grid, as `tools/make_sample_pet.py` does for the sample pet (read it for the approach), dump `frames/<animation>/NN.png` at the cell size and continue at the compose step. Keep palettes tiny (under 16 colours) and cell size 32 for scripted pets.
+- **No image tool available.** Say so, then offer: (a) the user supplies art (concept art for the base; full strips if they have them); (b) hand-drawn pixel art by script: write a small Python/Pillow script that draws each pose as a pixel grid, as `${CLAUDE_PLUGIN_ROOT}/tools/make_sample_pet.py` does for the sample pet (read it for the approach), dump `frames/<animation>/NN.png` at the cell size and continue at the compose step. Keep palettes tiny (under 16 colours) and cell size 32 for scripted pets.
 - **User-supplied single image of the character.** Use it as the base. For other rows, either generate with a tool or build simple variations by script (shifted or bobbed copies for idle, mirrored copies for walk-left) and say plainly which rows are placeholders.
 - **A source that produces anti-aliased or non-pixel art.** That is fine; `extract_strip_frames.py` and `pixelate.py` convert it to compliant pixel art. Quality is better when the source is already stylised as pixel art.
 - **Background removal fails** (key colour in the character, soft shadows): set `--key #RRGGBB` explicitly, raise `--tolerance`, or regenerate on a different key colour.

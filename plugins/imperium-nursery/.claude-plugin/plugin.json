@@ -1,14 +1,14 @@
 {
-  "name": "pixel-pets",
-  "displayName": "Pixel Pets",
+  "name": "imperium-nursery",
+  "displayName": "Imperium Nursery",
   "version": "0.1.0",
   "description": "A pixel pet that lives in its own pane and reacts to your session: it works while a turn runs, waits when Claude needs you, celebrates commits and passing tests, and naps when idle. Loads v3 pet packages from ~/.claude/pets.",
   "author": {
     "name": "Densetsu152637",
     "url": "https://github.com/Densetsu152637"
   },
-  "homepage": "https://github.com/Densetsu152637/Pixel-Pets",
-  "repository": "https://github.com/Densetsu152637/Pixel-Pets",
+  "homepage": "https://github.com/Densetsu152637/Imperium-Nursery",
+  "repository": "https://github.com/Densetsu152637/Imperium-Nursery",
   "license": "MIT",
   "types": "./types/index.d.ts",
   "userConfig": {

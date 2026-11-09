@@ -1,13 +1,19 @@
 {
-  "name": "pixel-pets",
+  "name": "imperium-nursery",
   "owner": {
     "name": "Densetsu152637"
   },
-  "description": "Pixel Pets: a pixel-art animated pet for Claude Code, with skills and tools to hatch your own or import a Codex pet.",
+  "description": "Imperium Nursery: an animated pixel pet for Claude Code, and separate skills and tools to hatch your own pets.",
   "plugins": [
     {
-      "name": "pixel-pets",
-      "source": "./"
+      "name": "imperium-nursery",
+      "source": "./plugins/imperium-nursery",
+      "description": "The Claude Code mod: a pixel pet in its own pane and the /pet command."
+    },
+    {
+      "name": "pet-hatchery",
+      "source": "./plugins/pet-hatchery",
+      "description": "Skills and tools to hatch, import, validate and package Pixel Pets v3 pets."
     }
   ]
 }
